@@ -1,0 +1,819 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/vendors/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Roboto Slab:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|PT Mono:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/vendors/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JVM," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.1" />
+
+
+
+
+
+
+<meta name="description" content="转自：http://my.oschina.net/chape/blog/200790http://www.cnblogs.com/gw811/archive/2012/10/19/2730258.html
+
+1) Heap Size-Xmx —最大Heap Size，即上图的Total size（包括Eden+form+to，Tenured，不包含Perm，见上图），限制了年轻代和年老代的可分配">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JVM性能调优">
+<meta property="og:url" content="http://darrenyjy.github.io/2016/07/18/JVM性能调优/index.html">
+<meta property="og:site_name" content="石沉溪洞">
+<meta property="og:description" content="转自：http://my.oschina.net/chape/blog/200790http://www.cnblogs.com/gw811/archive/2012/10/19/2730258.html
+
+1) Heap Size-Xmx —最大Heap Size，即上图的Total size（包括Eden+form+to，Tenured，不包含Perm，见上图），限制了年轻代和年老代的可分配">
+<meta property="og:updated_time" content="2016-07-18T11:52:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="JVM性能调优">
+<meta name="twitter:description" content="转自：http://my.oschina.net/chape/blog/200790http://www.cnblogs.com/gw811/archive/2012/10/19/2730258.html
+
+1) Heap Size-Xmx —最大Heap Size，即上图的Total size（包括Eden+form+to，Tenured，不包含Perm，见上图），限制了年轻代和年老代的可分配">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: 0,
+      author: '博主'
+    }
+  };
+</script>
+
+  <title> JVM性能调优 | 石沉溪洞 </title>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "//hm.baidu.com/hm.js?93b770cc8b7944adae746b2050655eab";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">石沉溪洞</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle">Every step leaves its print</p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                JVM性能调优
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">发表于</span>
+            <time itemprop="dateCreated" datetime="2016-07-18T10:25:47+08:00" content="2016-07-18">
+              2016-07-18
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Java/" itemprop="url" rel="index">
+                    <span itemprop="name">Java</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/07/18/JVM性能调优/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/07/18/JVM性能调优/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+
+          
+          
+             <span id="/2016/07/18/JVM性能调优/" class="leancloud_visitors" data-flag-title="JVM性能调优">
+               &nbsp; | &nbsp;
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               <span class="post-meta-item-text">阅读次数 </span>
+               <span class="leancloud-visitors-count"></span>
+              </span>
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <blockquote>
+<p>转自：<a href="http://my.oschina.net/chape/blog/200790" target="_blank" rel="external">http://my.oschina.net/chape/blog/200790</a><br><a href="http://www.cnblogs.com/gw811/archive/2012/10/19/2730258.html" target="_blank" rel="external">http://www.cnblogs.com/gw811/archive/2012/10/19/2730258.html</a></p>
+</blockquote>
+<h3 id="1-Heap-Size"><a href="#1-Heap-Size" class="headerlink" title="1) Heap Size"></a>1) Heap Size</h3><p>-Xmx —最大Heap Size，即上图的Total size（包括Eden+form+to，Tenured，不包含Perm，见上图），限制了年轻代和年老代的可分配最大值；</p>
+<p>-Xms —初始化分配的Heap Size</p>
+<p>生产环境中ms一般设置成跟mx相等，因为若ms不等于mx那么在某些场景下JVM可能需要对Heap Size进行频繁的扩展和收缩，增加处理时间；</p>
+<h3 id="2）New-Young-Generation-Size"><a href="#2）New-Young-Generation-Size" class="headerlink" title="2）New/Young Generation Size"></a>2）New/Young Generation Size</h3><p>-Xmn —最大年轻代大小，即上图中的Eden+S0+S1+Virtual</p>
+<p>-XX:NewSize —初始化年轻代大小，即上图中的Eden+S0+S1，在只设置了-Xmn不设置-XX:NewSize的情况下，NewSize等于mn。</p>
+<p>生产环境中一般只需设置-Xmn或者设置mn和NewSize相等，理由和HeapSize的设置一样，避免容量震荡消耗资源；</p>
+<h3 id="3）Old-Generation-Size-（Tenured）"><a href="#3）Old-Generation-Size-（Tenured）" class="headerlink" title="3）Old Generation Size （Tenured）"></a>3）Old Generation Size （Tenured）</h3><p>-XX:NewRatio — Old Size/New Size，通过年老代和年轻代的比例和Heap Size就可以算出年老代的大小。一般默认为8，若Heap Size为1024m，则 NewSize=HeapSize/(NewRatio+1)=114m，OldSize=HeapSize-NewSize=910m；</p>
+<p>注意：-Xmn的优先级比-XX:NewRatio高，若-Xmn已指定，则OldSize=HeapSize-NewSize，无需再按比例计算。生产环境中一般只需指定-Xmn就足够了。</p>
+<h3 id="4）Eden和S0、S1"><a href="#4）Eden和S0、S1" class="headerlink" title="4）Eden和S0、S1"></a>4）Eden和S0、S1</h3><p>-XX:SurvivorRatio — Eden/S0，即 Eden区和S0的比例，默认为8，若NewSize为114m，则S0=NewSize/(SurvivorRatio+2)=11.4m;</p>
+<p>S0==S1，S0、S1的职能是一模一样的，又叫做From space和To space，在每一次minor gc后角色会交换。</p>
+<p>注意：-XX类型的选项在不同的JDK版本或实现中定义可能有所区别，在近日的实践中发现，</p>
+<p>在Linux jdk_1_5_0_10_x86版本中，SurvivorRatio=(YoungSize/S0)，而Linux jdk_1_5_0_20_x64版本中，SurvivorRatio=(Eden/S0)</p>
+<p>所以，我们在实际的工程实践中还是应该用jmap -heap输出的jvm内存结构信息为准，不要想当然。</p>
+<h3 id="5）Permanent-Generation-Size"><a href="#5）Permanent-Generation-Size" class="headerlink" title="5）Permanent Generation Size"></a>5）Permanent Generation Size</h3><p>-XX:MaxPermSize —最大持久代大小，默认为64m；</p>
+<p>-XX:PermSize —初始化持久代大小，默认为16m；</p>
+<p>生产环境中一般设置MaxPermSize和PermSize相等，理由和HeapSize的设置一样，避免容量震荡消耗资源；</p>
+<p>当应用引用的类比较多或者应用了一些动态类生产技术时应该加大该区的值，一般256m对服务器程序都很足够了。</p>
+<h3 id="6）Thread-Stack-Size"><a href="#6）Thread-Stack-Size" class="headerlink" title="6）Thread Stack Size"></a>6）Thread Stack Size</h3><p>-Xss —线程堆栈大小，一般用于存放方法入口参数和返回值，以及原子类型的本地变量（即方法内部变量）；</p>
+<p>一般可设置为128k.</p>
+<h3 id="7）Direct-Memory-Size"><a href="#7）Direct-Memory-Size" class="headerlink" title="7）Direct Memory Size"></a>7）Direct Memory Size</h3><p>-XX:MaxDirectMemorySize —direct byte buffer用到的本地内存，在本blog的一篇《xsocket内存泄漏》文章中介绍过该参数的作用。默认跟mx相等，所以生产环境中一般不设置mx大于物理内存的一半。</p>
+<h3 id="GC过程"><a href="#GC过程" class="headerlink" title="GC过程"></a>GC过程</h3><p>在讲述GC过程前我先解释一下JVM的两个控制参数：</p>
+<p>-XX:TargetSurvivorRatio — Survivor Space最大使用率，若存放对象的总大小超过该值，将引起对象向Old区迁移；</p>
+<p>-XX:MaxTenuringThreshold — Young区对象的最大任期阀值，即可经历minor gc的次数，超过该次数的对象直接迁移到Old区；</p>
+<p>实际的TenuringThreshold由JVM通过Survivor Space的占用率和TargetSurvivorRatio动态计算，详情请查看参考资料。</p>
+<h3 id="引用计数算法"><a href="#引用计数算法" class="headerlink" title="引用计数算法"></a>引用计数算法</h3><p>　　很多教科书判断对象是否存活的算法是这样的：给对象中添加一个引用计数器，每当有一个地方引用它时，计数器值就加1；当引用失效时，计数器值就减1；任何时刻计数器都为0的对象就是不可能再被使用的。笔者面试过很多的应届生和一些有多年工作经验的开发人员，他们对于这个问题给予的都是这个答案。</p>
+<p>　　客观地说，引用计数算法（Reference Counting）的实现简单，判定效率也很高，在大部分情况下它都是一个不错的算法，也有一些比较著名的应用案例，例如微软的COM（Component Object Model）技术、使用ActionScript 3的FlashPlayer、Python语言以及在游戏脚本领域中被广泛应用的Squirrel中都使用了引用计数算法进行内存管理。但是，Java语言中没有选用引用计数算法来管理内存，其中最主要的原因是它很难解决对象之间的相互循环引用的问题。
+　　</p>
+<h3 id="根搜索算法"><a href="#根搜索算法" class="headerlink" title="根搜索算法"></a>根搜索算法</h3><p>　　在主流的商用程序语言中（Java和C#，甚至包括前面提到的古老的Lisp），都是使用根搜索算法（GC Roots Tracing）判定对象是否存活的。这个算法的基本思路就是通过一系列的名为“GC Roots”的对象作为起始点，从这些节点开始向下搜索，搜索所走过的路径称为引用链（Reference Chain），当一个对象到GC Roots没有任何引用链相连（用图论的话来说就是从GC Roots到这个对象不可达）时，则证明此对象是不可用的。如图3-1所示，对象object 5、object 6、object7虽然互相有关联，但是它们到GC Roots是不可达的，所以它们将会被判定为是可回收的对象。</p>
+<p>　　在Java语言里，可作为GC Roots的对象包括下面几种：</p>
+<p>　　　　虚拟机栈（栈帧中的本地变量表）中的引用的对象。</p>
+<p>　　　　方法区中的类静态属性引用的对象。</p>
+<p>　　　　方法区中的常量引用的对象。</p>
+<p>　　　　本地方法栈中JNI（即一般说的Native方法）的引用的对象。
+　　　　</p>
+<h3 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h3><p>　　无论是通过引用计数算法判断对象的引用数量，还是通过根搜索算法判断对象的引用链是否可达，判定对象是否存活都与“引用”有关。在JDK 1.2之前，Java中的引用的定义很传统：如果reference类型的数据中存储的数值代表的是另外一块内存的起始地址，就称这块内存代表着一个引用。这种定义很纯粹，但是太过狭隘，一个对象在这种定义下只有被引用或者没有被引用两种状态，对于如何描述一些“食之无味，弃之可惜”的对象就显得无能为力。我们希望能描述这样一类对象：当内存空间还足够时，则能保留在内存之中；如果内存在进行垃圾收集后还是非常紧张，则可以抛弃这些对象。很多系统的缓存功能都符合这样的应用场景。</p>
+<p>　　在JDK 1.2之后，Java对引用的概念进行了扩充，将引用分为强引用（Strong Reference）、软引用（Soft Reference）、弱引用（WeakReference）、虚引用（Phantom Reference）四种，这四种引用强度依次逐渐减弱。</p>
+<p>　　强引用就是指在程序代码之中普遍存在的，类似“Object obj = new Object()”这类的引用，只要强引用还存在，垃圾收集器永远不会回收掉被引用的对象。</p>
+<p>　　软引用用来描述一些还有用，但并非必需的对象。对于软引用关联着的对象，在系统将要发生内存溢出异常之前，将会把这些对象列进回收范围之中并进行第二次回收。如果这次回收还是没有足够的内存，才会抛出内存溢出异常。在JDK 1.2之后，提供了SoftReference类来实现软引用。</p>
+<p>　　弱引用也是用来描述非必需对象的，但是它的强度比软引用更弱一些，被弱引用关联的对象只能生存到下一次垃圾收集发生之前。当垃圾收集器工作时，无论当前内存是否足够，都会回收掉只被弱引用关联的对象。在JDK 1.2之后，提供了WeakReference类来实现弱引用。</p>
+<p>　　虚引用也称为幽灵引用或者幻影引用，它是最弱的一种引用关系。一个对象是否有虚引用的存在，完全不会对其生存时间构成影响，也无法通过虚引用来取得一个对象实例。为一个对象设置虚引用关联的唯一目的就是希望能在这个对象被收集器回收时收到一个系统通知。在JDK 1.2之后，提供了PhantomReference类来实现虚引用。
+　　</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JVM/" rel="tag">#JVM</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/07/03/Java面试常见问题总结/" rel="next" title="Java面试常见问题总结">
+                <i class="fa fa-chevron-left"></i> Java面试常见问题总结
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/07/21/Github学习/" rel="prev" title="Github学习">
+                Github学习 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/07/18/JVM性能调优/"
+           data-title="JVM性能调优" data-url="http://darrenyjy.github.io/2016/07/18/JVM性能调优/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/uploads/logo.jpg"
+               alt="darrenyjy" />
+          <p class="site-author-name" itemprop="name">darrenyjy</p>
+          <p class="site-description motion-element" itemprop="description">Every step leaves its print</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">18</span>
+              <span class="site-state-item-name">日志</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-Heap-Size"><span class="nav-number">1.</span> <span class="nav-text">1) Heap Size</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2）New-Young-Generation-Size"><span class="nav-number">2.</span> <span class="nav-text">2）New/Young Generation Size</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3）Old-Generation-Size-（Tenured）"><span class="nav-number">3.</span> <span class="nav-text">3）Old Generation Size （Tenured）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4）Eden和S0、S1"><span class="nav-number">4.</span> <span class="nav-text">4）Eden和S0、S1</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5）Permanent-Generation-Size"><span class="nav-number">5.</span> <span class="nav-text">5）Permanent Generation Size</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6）Thread-Stack-Size"><span class="nav-number">6.</span> <span class="nav-text">6）Thread Stack Size</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7）Direct-Memory-Size"><span class="nav-number">7.</span> <span class="nav-text">7）Direct Memory Size</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#GC过程"><span class="nav-number">8.</span> <span class="nav-text">GC过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用计数算法"><span class="nav-number">9.</span> <span class="nav-text">引用计数算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#根搜索算法"><span class="nav-number">10.</span> <span class="nav-text">根搜索算法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用"><span class="nav-number">11.</span> <span class="nav-text">引用</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2016</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">darrenyjy</span>
+</div>
+
+<div class="powered-by">
+  由 <a class="theme-link" href="http://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/vendors/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/vendors/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/vendors/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.0.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.0.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.1"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"yuanjinyao"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+  
+
+
+
+
+
+  
+  
+  
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.1.js"></script>
+  <script>AV.initialize("mSGr7DSdrb1MDREKNukp95J9-gzGzoHsz", "R8pAocDT5l66rbGYIPyGYaWz");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+</body>
+</html>

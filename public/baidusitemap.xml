@@ -1,0 +1,369 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+
+    
+  <url>
+    <loc>http://darrenyjy.github.io/2016/07/21/Github%E5%AD%A6%E4%B9%A0/</loc>
+    <lastmod>2016-07-28T09:43:35.000Z</lastmod>
+    <data>
+        <display>
+        <title>Github学习</title>
+        <pubTime>2016-07-21T07:27:32.000Z</pubTime>
+        
+        <tag>GitHub</tag>
+         
+         
+           
+             
+              <breadCrumb title="编程工具" url="http://darrenyjy.github.io/categories/%E7%BC%96%E7%A8%8B%E5%B7%A5%E5%85%B7/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://darrenyjy.github.io/2016/07/18/JVM%E6%80%A7%E8%83%BD%E8%B0%83%E4%BC%98/</loc>
+    <lastmod>2016-07-18T11:52:02.000Z</lastmod>
+    <data>
+        <display>
+        <title>JVM性能调优</title>
+        <pubTime>2016-07-18T02:25:47.000Z</pubTime>
+        
+        <tag>JVM</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://darrenyjy.github.io/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://darrenyjy.github.io/2016/05/29/Java%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E7%90%86%E8%A7%A3/</loc>
+    <lastmod>2016-07-12T13:10:46.000Z</lastmod>
+    <data>
+        <display>
+        <title>Java虚拟机的理解</title>
+        <pubTime>2016-05-29T08:59:58.000Z</pubTime>
+        
+        <tag>面试</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://darrenyjy.github.io/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://darrenyjy.github.io/2016/07/03/Java%E9%9D%A2%E8%AF%95%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%80%BB%E7%BB%93/</loc>
+    <lastmod>2016-07-12T11:54:57.000Z</lastmod>
+    <data>
+        <display>
+        <title>Java面试常见问题总结</title>
+        <pubTime>2016-07-03T08:39:15.000Z</pubTime>
+        
+        <tag>面试</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://darrenyjy.github.io/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://darrenyjy.github.io/2016/06/23/MyBatis%E5%85%A5%E9%97%A8/</loc>
+    <lastmod>2016-07-08T04:27:26.000Z</lastmod>
+    <data>
+        <display>
+        <title>MyBatis入门</title>
+        <pubTime>2016-06-23T07:35:40.000Z</pubTime>
+        
+        <tag>Mybatis</tag>
+         
+        <tag>Java Web</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://darrenyjy.github.io/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://darrenyjy.github.io/2016/07/03/Zookeeper-Leader%E9%80%89%E4%B8%BE%E7%AE%97%E6%B3%95/</loc>
+    <lastmod>2016-07-03T05:16:28.000Z</lastmod>
+    <data>
+        <display>
+        <title>Zookeeper Leader选举算法</title>
+        <pubTime>2016-07-03T05:16:28.000Z</pubTime>
+        
+         
+           
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://darrenyjy.github.io/2016/05/25/Hexo%E7%9A%84%E4%BD%BF%E7%94%A8/</loc>
+    <lastmod>2016-06-28T12:54:05.000Z</lastmod>
+    <data>
+        <display>
+        <title>Hexo的使用</title>
+        <pubTime>2016-05-25T12:59:06.000Z</pubTime>
+        
+        <tag>Hexo</tag>
+         
+         
+           
+             
+              <breadCrumb title="Hexo" url="http://darrenyjy.github.io/categories/Hexo/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
+  <url>
+    <loc>http://darrenyjy.github.io/2016/06/27/%E5%8D%95%E5%88%A9%E6%A8%A1%E5%BC%8F%E4%BD%A0%E4%B8%8D%E4%B8%80%E5%AE%9A%E6%87%82/</loc>
+    <lastmod>2016-06-28T05:04:37.000Z</lastmod>
+    <data>
+        <display>
+        <title>单例模式你不一定懂</title>
+        <pubTime>2016-06-27T10:30:11.000Z</pubTime>
+        
+        <tag>设计模式</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://darrenyjy.github.io/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://darrenyjy.github.io/2016/06/25/%E6%95%B0%E6%8D%AE%E5%BA%93%E7%B4%A2%E5%BC%95/</loc>
+    <lastmod>2016-06-27T10:43:38.000Z</lastmod>
+    <data>
+        <display>
+        <title>数据库索引以及数据库优化</title>
+        <pubTime>2016-06-25T02:30:53.000Z</pubTime>
+        
+        <tag>索引</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据库" url="http://darrenyjy.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://darrenyjy.github.io/2016/06/13/%E5%9C%A8%E7%BA%BF%E8%AF%BE%E5%A0%82%E6%90%AD%E5%BB%BA%E6%B3%A8%E6%84%8F%E4%BA%8B%E9%A1%B9/</loc>
+    <lastmod>2016-06-13T00:59:05.000Z</lastmod>
+    <data>
+        <display>
+        <title>在线课堂搭建注意事项</title>
+        <pubTime>2016-06-13T00:22:09.000Z</pubTime>
+        
+        <tag>SSH</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://darrenyjy.github.io/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://darrenyjy.github.io/2016/06/12/CAS%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95%E9%85%8D%E7%BD%AE/</loc>
+    <lastmod>2016-06-12T09:07:27.000Z</lastmod>
+    <data>
+        <display>
+        <title>CAS单点登录配置</title>
+        <pubTime>2016-06-12T08:02:44.000Z</pubTime>
+        
+        <tag>CAS</tag>
+         
+         
+           
+             
+              <breadCrumb title="服务器" url="http://darrenyjy.github.io/categories/%E6%9C%8D%E5%8A%A1%E5%99%A8/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://darrenyjy.github.io/2016/06/12/mongoDB%E6%90%AD%E5%BB%BA%E4%B8%8E%E9%85%8D%E7%BD%AE/</loc>
+    <lastmod>2016-06-12T07:55:34.000Z</lastmod>
+    <data>
+        <display>
+        <title>mongoDB搭建与配置</title>
+        <pubTime>2016-06-12T06:17:06.000Z</pubTime>
+        
+        <tag>MongoDB</tag>
+         
+         
+           
+             
+              <breadCrumb title="数据库" url="http://darrenyjy.github.io/categories/%E6%95%B0%E6%8D%AE%E5%BA%93/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://darrenyjy.github.io/2016/06/06/%E8%BD%AC-Spring%E5%A6%82%E4%BD%95%E5%8A%A0%E8%BD%BDXSD%E6%96%87%E4%BB%B6-org-xml-sax-SAXParseException-Failed-to-read-schema-document%E9%94%99%E8%AF%AF%E7%9A%84%E8%A7%A3%E5%86%B3%E6%96%B9%E6%B3%95/</loc>
+    <lastmod>2016-06-06T00:52:18.000Z</lastmod>
+    <data>
+        <display>
+        <title>转:Spring如何加载XSD文件(org.xml.sax.SAXParseException: Failed to read schema document错误的解决方法)</title>
+        <pubTime>2016-06-06T00:49:08.000Z</pubTime>
+        
+        <tag>Spring</tag>
+         
+        <tag>转发</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://darrenyjy.github.io/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://darrenyjy.github.io/2016/05/30/Spring-IOC%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/</loc>
+    <lastmod>2016-06-01T02:44:20.000Z</lastmod>
+    <data>
+        <display>
+        <title>Spring IOC相关内容</title>
+        <pubTime>2016-05-30T05:02:07.000Z</pubTime>
+        
+        <tag>Spring</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://darrenyjy.github.io/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://darrenyjy.github.io/2016/05/31/Spring-AOP%E7%9B%B8%E5%85%B3%E5%86%85%E5%AE%B9/</loc>
+    <lastmod>2016-05-31T08:14:03.000Z</lastmod>
+    <data>
+        <display>
+        <title>Spring AOP相关内容</title>
+        <pubTime>2016-05-31T08:12:55.000Z</pubTime>
+        
+        <tag>Spring</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://darrenyjy.github.io/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://darrenyjy.github.io/2016/05/28/Java-ArrayList%E4%B8%8ELinkedList%E5%AF%B9%E6%AF%94/</loc>
+    <lastmod>2016-05-28T11:56:49.000Z</lastmod>
+    <data>
+        <display>
+        <title>Java ArrayList与LinkedList对比</title>
+        <pubTime>2016-05-28T07:35:04.000Z</pubTime>
+        
+        <tag>面试</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://darrenyjy.github.io/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://darrenyjy.github.io/2016/05/28/String%E6%B1%A0%E5%8C%96%E5%8F%8Aintern%E6%96%B9%E6%B3%95%E7%9A%84%E4%BD%9C%E7%94%A8/</loc>
+    <lastmod>2016-05-28T11:48:43.000Z</lastmod>
+    <data>
+        <display>
+        <title>String池化及intern方法的作用</title>
+        <pubTime>2016-05-28T11:16:57.000Z</pubTime>
+        
+        <tag>面试</tag>
+         
+         
+           
+             
+              <breadCrumb title="Java" url="http://darrenyjy.github.io/categories/Java/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+  <url>
+    <loc>http://darrenyjy.github.io/2016/05/25/Maven/</loc>
+    <lastmod>2016-05-26T05:40:54.000Z</lastmod>
+    <data>
+        <display>
+        <title>maven-resources-plugin:2.6 or one of its dependencies could not be resolved</title>
+        <pubTime>2016-05-25T13:37:00.000Z</pubTime>
+        
+        <tag>maven</tag>
+         
+         
+           
+             
+              <breadCrumb title="maven" url="http://darrenyjy.github.io/categories/maven/"/>
+          
+        </display>
+    </data>
+    </url>
+
+    
+    
+    
+</urlset>
